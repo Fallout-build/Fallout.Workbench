@@ -1,0 +1,17 @@
+{
+  "name": "fallout-workbench",
+  "owner": { "name": "Fallout-build" },
+  "metadata": {
+    "description": "Shared patterns, antipatterns, skills and agents for the Fallout-build organisation.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "fallout-workbench",
+      "source": "./",
+      "description": "Shared skills, agents and commands for Fallout-build repositories.",
+      "category": "development",
+      "tags": ["fallout", "standards", "patterns"]
+    }
+  ]
+}

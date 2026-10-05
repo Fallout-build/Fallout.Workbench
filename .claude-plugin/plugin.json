@@ -1,0 +1,7 @@
+{
+  "name": "fallout-workbench",
+  "version": "0.1.0",
+  "description": "Shared skills, agents and commands for Fallout-build repositories.",
+  "author": { "name": "Fallout-build" },
+  "license": "MIT"
+}
