@@ -14,3 +14,46 @@ Failures surface far from their cause. Registration order and repeat calls chang
 
 ## Instead
 Skip when it is safe, but log a warning that says what was skipped and why. Handle malformed input without crashing. Keep registration methods idempotent and free of global mutation.
+
+## Example
+
+```csharp
+// Bad: skips silently, crashes on malformed input
+if (!File.Exists(path))
+{
+    return;
+}
+
+var end = FindEndOfBlock(lines, start);   // can return -1
+var next = lines[end + 1];                // IndexOutOfRangeException
+
+// Good: skip visibly, handle malformed input
+if (!File.Exists(path))
+{
+    Log.Warning("Changelog {Path} not found; skipping release notes.", path);
+    return;
+}
+
+var end = FindEndOfBlock(lines, start);
+if (end < 0 || end + 1 >= lines.Count)
+{
+    Log.Warning("Unrecognised block in {File}; leaving it unchanged.", file);
+    return;
+}
+```
+
+```csharp
+// Bad: a DI registration that changes global state on every call
+public static IServiceCollection AddFalloutLogging(this IServiceCollection services)
+{
+    Log.Logger = CreateLogger();
+    return services.AddSingleton(Log.Logger);
+}
+
+// Good: idempotent, no global mutation
+public static IServiceCollection AddFalloutLogging(this IServiceCollection services)
+{
+    services.TryAddSingleton<ILoggerFactory>(_ => CreateLoggerFactory());
+    return services;
+}
+```

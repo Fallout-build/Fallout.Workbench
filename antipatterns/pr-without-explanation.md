@@ -14,3 +14,22 @@ Reviewers have to guess the intent, so the first round of review is spent asking
 
 ## Instead
 State the problem, the change and how you checked it. Add tests, or say why not. Explain each unrelated edit or move it to another PR. See the `plain-english` skill.
+
+## Example
+
+```markdown
+<!-- Bad -->
+Fixes #412
+
+<!-- Good -->
+## Problem
+`fallout-migrate` renames `NukeVersion` but keeps the old value when the tag
+has a space before `>`. The project then builds against Nuke.
+
+## Change
+The regex now allows whitespace before the closing `>`.
+
+## Checked
+- New test: `A_version_tag_with_trailing_space_is_bumped`
+- Ran the migration on the canary repo. The version changed to 10.4.0.
+```
