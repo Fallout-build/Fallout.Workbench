@@ -18,7 +18,7 @@ Other tools (such as GitHub Copilot) read [`AGENTS.md`](AGENTS.md) and can use t
 | Folder | Contents |
 |---|---|
 | `patterns/` | How we do things |
-| `antipatterns/` | What we reject, and why |
+| `antipatterns/` | What we reject, and why (11 drafts so far) |
 | `skills/` | `plain-english`, `restructure-pr-commits` |
 | `agents/` | `story-writer` |
 | `commands/` | `new-issue` |
