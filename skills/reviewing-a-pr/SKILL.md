@@ -62,16 +62,29 @@ says go for that PR.
 
 ## Labels
 
-Labels drive the workflow, so check them on every review.
+Labels drive the workflow, so every review ends with the PR carrying the
+correct labels. Set them. Do not only comment on them.
 
-- Read the repo's contributing guide for which labels a PR needs.
-- List what exists with `gh label list`. Never invent a label.
-- Compare with the PR's current labels. Propose what to add and what to
-  remove, each with a one-line reason.
-- Apply after the user says go:
-  ```
-  gh pr edit <N> --add-label "<a>,<b>" --remove-label "<c>"
-  ```
+1. **Find the rules.** Look in the repo for its label rules, in this order:
+   the PR-creation skill, `.github/release.yml`, the contributing guide, the PR
+   template. List real labels with `gh label list`. Never invent a label.
+   - In `Fallout-build/Fallout`: one `target/*` label, and one changelog
+     category label from `.github/release.yml`. The `creating-a-pr` skill
+     explains how to choose.
+2. **Work out the correct set from the change itself.** Read what the diff does.
+   Do not trust the labels the author applied. For example, a change that
+   removes public API is breaking, whatever its label says.
+3. **Compare** with the PR's current labels. Add what is missing. Remove what
+   is wrong, such as a second category label.
+4. **Show the user** the change with a one-line reason per label. After they
+   say go, apply it:
+   ```
+   gh pr edit <N> --add-label "<a>,<b>" --remove-label "<c>"
+   ```
+5. **Check the result** with `gh pr view <N> --json labels`.
+
+If the labels show that the change is breaking, say so in the review. The repo's
+PR-creation skill lists the extra steps for a breaking change.
 
 ## Assignees
 
