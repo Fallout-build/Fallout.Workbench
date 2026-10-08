@@ -42,8 +42,12 @@ says go for that PR.
    that sit inside other names. A probe that finds nothing is worth one line in
    the review: "Probed X, all valid."
 
-5. **Draft first.** Show the user each inline comment with its file path and
-   line number at the head SHA. Post only after they say go.
+5. **Draft first.** Show the user:
+   - each inline comment, with its file path and line number at the head SHA;
+   - the label changes you propose (see Labels);
+   - the assignees you propose (see Assignees).
+
+   Post and edit only after they say go for that PR.
 
 6. **Post as one review.**
    ```
@@ -53,6 +57,41 @@ says go for that PR.
    `comments[{path, line, side: "RIGHT", body}]`. Each line must sit inside a
    diff hunk, or the API rejects the review. Build the JSON with a script, not
    by hand.
+
+7. **Set labels and assignees**, after the review is posted. See below.
+
+## Labels
+
+Labels drive the workflow, so check them on every review.
+
+- Read the repo's contributing guide for which labels a PR needs.
+- List what exists with `gh label list`. Never invent a label.
+- Compare with the PR's current labels. Propose what to add and what to
+  remove, each with a one-line reason.
+- Apply after the user says go:
+  ```
+  gh pr edit <N> --add-label "<a>,<b>" --remove-label "<c>"
+  ```
+
+## Assignees
+
+Assign everyone involved in the review: the author or authors, and the
+reviewer or reviewers.
+
+- Authors: the PR author, plus the author of each commit. Skip bots.
+  ```
+  gh pr view <N> --json author,commits \
+    --jq '[.author.login, (.commits[].authors[].login)] | unique[]'
+  ```
+- Reviewers: the user, plus anyone whose review is already requested.
+  `@me` means the user.
+- GitHub only accepts assignees who can be assigned in that repo. Check with
+  `gh api repos/<owner>/<repo>/assignees/<login>`. Report any login that
+  fails. Do not retry it.
+- Apply after the user says go:
+  ```
+  gh pr edit <N> --add-assignee "<login>,@me"
+  ```
 
 ## Verdict
 
@@ -67,9 +106,9 @@ merge, and which are optional.
 - Open the review by naming what is good, briefly. Keep the tone friendly.
 - Lead with the point. Then give a concrete input that shows it, the cause in
   one line, and a `Suggestion:`.
-- Prefix small style points with `nit:`. Prefix open design questions with
-  `Question:`. A comment with no prefix is a real finding.
+- Prefix small style points with `⛏️ nit:` (the pickaxe emoji). Prefix open
+  design questions with `Question:`. A comment with no prefix is a real
+  finding.
 - Say how you checked each claim: "reproduced", "I probed X", or "from reading
   the code". Do not state unchecked things as fact.
-- Mention missing labels or draft status at most once, in the summary. A
-  maintainer may add them.
+- Mention the label and draft-status changes once, in the review body.
