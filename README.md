@@ -11,6 +11,12 @@ Shared patterns, antipatterns, skills and agents for the Fallout-build organisat
 /plugin install fallout-workbench@fallout-workbench
 ```
 
+To work on the core repo (`Fallout-build/Fallout`), also install its skills:
+
+```
+/plugin install fallout-core@fallout-workbench
+```
+
 Other tools (such as GitHub Copilot) read [`AGENTS.md`](AGENTS.md) and can use the files under `skills/`, `patterns/` and `antipatterns/` directly.
 
 ## What is in here
@@ -23,5 +29,6 @@ Other tools (such as GitHub Copilot) read [`AGENTS.md`](AGENTS.md) and can use t
 | `agents/` | `story-writer` |
 | `commands/` | `new-issue` |
 | `templates/` | Starter files for other repos |
+| `plugins/fallout-core/` | Skills for the core repo: `creating-a-pr`, `cutting-a-release`, `editing-ci-workflows`, `marking-experimental-apis`, `adding-a-tool-wrapper`, `adding-a-migration-step` |
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) to add or change something.
