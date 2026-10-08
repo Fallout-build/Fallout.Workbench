@@ -19,6 +19,6 @@ Promote an item with a PR that links the repos and PRs where it was used.
 
 ## Rules
 
-- Keep items generic to the org. Repo-specific guidance stays in that repo.
+- Keep top-level items generic to the org. Guidance for one repo goes in `plugins/<repo>/`.
 - Write in plain English (see `skills/plain-english/SKILL.md`).
 - Do not include secrets, private URLs or customer data.

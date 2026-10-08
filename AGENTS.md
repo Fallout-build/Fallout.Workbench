@@ -11,11 +11,12 @@ antipatterns, skills, agents and templates. It contains no application code.
 - `agents/` — shared subagent definitions.
 - `commands/` — shared slash commands.
 - `templates/` — starter files other repos can copy.
+- `plugins/<repo>/` — a separate plugin with skills for one repo, such as `plugins/fallout-core/`.
 
 ## Rules
 
 1. Every pattern, antipattern, skill and agent starts with frontmatter that includes `status: draft | trial | standard`. New items start as `draft`.
-2. Content must be generic to the org. Anything specific to one repo belongs in that repo, not here.
+2. Content at the top level (`skills/`, `agents/`, `commands/`, `patterns/`, `antipatterns/`) must be generic to the org. Guidance for one repo lives in its own plugin under `plugins/<repo>/`, so people who do not work on that repo never load it.
 3. Write in plain English. Follow `skills/plain-english/SKILL.md`.
 4. One topic, one home. Link to the canonical file instead of repeating its rules.
 5. Never add private or customer-specific material. This repo is public.
