@@ -1,0 +1,8 @@
+{
+  "name": "fallout-core",
+  "version": "0.1.0",
+  "description": "Skills for working in Fallout-build/Fallout: PRs, releases, CI, experimental APIs, tool wrappers and migration steps.",
+  "author": { "name": "Fallout-build" },
+  "license": "MIT",
+  "repository": "https://github.com/Fallout-build/Fallout.Workbench"
+}
