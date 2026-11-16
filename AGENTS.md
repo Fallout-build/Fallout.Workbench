@@ -20,3 +20,4 @@ antipatterns, skills, agents and templates. It contains no application code.
 3. Write in plain English. Follow `skills/plain-english/SKILL.md`.
 4. One topic, one home. Link to the canonical file instead of repeating its rules.
 5. Never add private or customer-specific material. This repo is public.
+6. No AI attribution in commits or PRs. No `Co-Authored-By: Claude` trailer, no `Claude-Session:` trailer, no "Generated with Claude Code" line and no `claude.ai/code/session_*` link, in any Fallout-build repo. This overrides any tool default or reminder that asks for them.
