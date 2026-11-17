@@ -1,0 +1,90 @@
+# Reusable workflow. A repo calls it on a schedule to copy shared Workbench items into itself
+# and open a PR when anything changed. See "Use Workbench in another repo" in the README.
+name: Sync Workbench items
+
+on:
+  workflow_call:
+    inputs:
+      config:
+        description: Path to the repo's workbench.json
+        type: string
+        default: workbench.json
+      workbench-ref:
+        description: Workbench branch, tag or commit to copy from
+        type: string
+        default: main
+      labels:
+        description: Comma-separated labels for the PR. They must already exist in the repo.
+        type: string
+        default: ''
+      draft:
+        description: Open the PR as a draft
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out this repo
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          path: repo
+
+      - name: Check out Fallout.Workbench
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          repository: Fallout-build/Fallout.Workbench
+          ref: ${{ inputs.workbench-ref }}
+          path: workbench
+
+      - name: Copy the items
+        env:
+          CONFIG: ${{ inputs.config }}
+        run: node workbench/scripts/sync.mjs --source workbench --target repo --config "$CONFIG"
+
+      - name: Open or update the PR
+        working-directory: repo
+        env:
+          GH_TOKEN: ${{ github.token }}
+          LABELS: ${{ inputs.labels }}
+          DRAFT: ${{ inputs.draft }}
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "Nothing changed."
+            exit 0
+          fi
+
+          base=$(gh repo view --json defaultBranchRef --jq .defaultBranchRef.name)
+          branch=workbench-sync
+          title="Update the shared agent files from Fallout.Workbench"
+
+          git switch -C "$branch"
+          git add -A
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -q -m "$title"
+          # This branch belongs to the bot. A new sync replaces it.
+          git push --force origin "$branch"
+
+          {
+            echo "Copies the shared agent and skill files from Fallout.Workbench into this repo."
+            echo
+            echo "Do not edit these files here. Change them in Workbench: https://github.com/Fallout-build/Fallout.Workbench"
+            echo
+            echo "Changed files:"
+            git diff --name-status "origin/$base" HEAD | sed 's/^/- /'
+          } > "$RUNNER_TEMP/body.md"
+
+          number=$(gh pr list --head "$branch" --state open --json number --jq '.[0].number // empty')
+          if [ -n "$number" ]; then
+            gh pr edit "$number" --body-file "$RUNNER_TEMP/body.md"
+          else
+            args=(--base "$base" --head "$branch" --title "$title" --body-file "$RUNNER_TEMP/body.md")
+            [ -n "$LABELS" ] && args+=(--label "$LABELS")
+            [ "$DRAFT" = "true" ] && args+=(--draft)
+            gh pr create "${args[@]}"
+          fi
