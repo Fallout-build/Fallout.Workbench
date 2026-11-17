@@ -12,6 +12,7 @@ antipatterns, skills, agents and templates. It contains no application code.
 - `commands/` — shared slash commands.
 - `templates/` — starter files other repos can copy.
 - `plugins/<repo>/` — a separate plugin with skills for one repo, such as `plugins/fallout-core/`.
+- `scripts/` and `.github/workflows/` — the sync that copies items into other repos (see the README).
 
 ## Rules
 
