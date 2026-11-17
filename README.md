@@ -26,7 +26,7 @@ Other tools (such as GitHub Copilot) read [`AGENTS.md`](AGENTS.md) and can use t
 | `patterns/` | How we do things |
 | `antipatterns/` | What we reject, and why (11 drafts so far) |
 | `skills/` | `plain-english`, `restructure-pr-commits`, `reviewing-a-pr` |
-| `agents/` | `story-writer` |
+| `agents/` | `story-writer`, `qa` |
 | `commands/` | `new-issue` |
 | `templates/` | Starter files for other repos |
 | `plugins/fallout-core/` | Skills for the core repo: `creating-a-pr`, `cutting-a-release`, `editing-ci-workflows`, `marking-experimental-apis`, `adding-a-tool-wrapper`, `adding-a-migration-step` |
